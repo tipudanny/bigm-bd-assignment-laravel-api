@@ -23,7 +23,7 @@ class CreateRegisteredUsersTable extends Migration
             $table->string('address_line');
             $table->string('language_proficiency');
             $table->json('educations');
-            $table->json('trainings');
+            $table->json('trainings')->nullable();
             $table->string('profile_image');
             $table->string('cv_attachment');
             $table->timestamps();

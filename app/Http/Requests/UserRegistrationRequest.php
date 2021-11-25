@@ -22,6 +22,7 @@ class UserRegistrationRequest extends FormRequest
     public function prepareForValidation()
     {
         $this->merge([
+            'language_proficiency' => json_decode($this->language_proficiency, true),
             'educations' => json_decode($this->educations, true),
             'trainings' => json_decode($this->trainings, true),
         ]);
@@ -45,21 +46,21 @@ class UserRegistrationRequest extends FormRequest
             'language_proficiency' => 'required',
 
             'educations' => 'required',
+            'educations.*.id' => 'required',
             'educations.*.exam' => 'required',
             'educations.*.university' => 'required',
             'educations.*.board' => 'required',
             'educations.*.result' => 'required',
 
-            'trainings' => 'required',
-            'trainings.*.name' => 'required',
-            'trainings.*.details' => 'required',
+            'trainings' => 'required_if:trainings,id,name,details',
+            'trainings.*.id' => 'required_with:trainings',
+            'trainings.*.name' => 'required_with:trainings.*.id',
+            'trainings.*.details' => 'required_with:trainings.*.name',
 
-            'profile_image' => 'required|image',
+            'profile_image' => 'required|mimes:jpg,jpeg,png,bmp,gif,svg,webp',
             'cv_attachment' => 'required|mimes:pdf,docx',
         ];
     }
-
-
 
     protected function failedValidation(Validator $validator)
     {

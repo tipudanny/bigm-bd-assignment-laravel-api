@@ -34,6 +34,7 @@ class RegisteredUserController extends Controller
     {
         $data = $request->validated();
 
+        $data['language_proficiency'] = json_encode($request->language_proficiency, true);
         $data['educations'] = json_encode($request->educations, true);
         $data['trainings'] = json_encode($request->trainings, true);
 
@@ -43,9 +44,8 @@ class RegisteredUserController extends Controller
         try {
             $request->profile_image->storeAs('/public/images', $data['profile_image']);
             $request->cv_attachment->storeAs('/public/docs', $data['cv_attachment']);
-            $user = RegisteredUser::create($data);
+            RegisteredUser::create($data);
             return response()->json([
-                'user' => $user,
                 'message' => 'Registration Successful',
             ], 201);
         } catch (\Exception $e) {

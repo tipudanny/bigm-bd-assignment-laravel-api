@@ -22,7 +22,7 @@ class UserResource extends JsonResource
             'district' => $this->district,
             'upazila' => $this->upazila,
             'address_line' => $this->address_line,
-            'language_proficiency' => $this->language_proficiency,
+            'language_proficiency' => json_decode($this->language_proficiency),
             'educations' => json_decode($this->educations),
             'trainings' => json_decode($this->trainings),
             'profile_image' => 'images/'.$this->profile_image,
